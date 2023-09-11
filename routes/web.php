@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\getCsv;
-use App\Models\productFactory;
-use App\Models\ProductItem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -18,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [getCsv::class, 'index'])->name('main');
-Route::post('/getCsv', [getCsv::class, 'getCsv'])->name('getCsv');
+Route::prefix('api')->group(function () {
+    Route::post('/getCsv', [getCsv::class, 'getCsv'])->name('getCsv');
+});
