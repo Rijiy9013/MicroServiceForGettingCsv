@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\getCsv;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::prefix('api')->group(function () {
-    Route::post('/getCsv', [getCsv::class, 'getCsv'])->name('getCsv');
-});
+Route::get('/', [getCsv::class, 'check'])->name('check');

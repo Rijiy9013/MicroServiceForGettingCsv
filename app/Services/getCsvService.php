@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\ProductItem;
 use App\Models\ProductSeller;
-use http\Env\Response;
 
 class getCsvService
 {
@@ -21,17 +20,15 @@ class getCsvService
     {
         if ($title) {
             $items = ProductItem::where('title', 'like', '%' . $title . '%')->where('is_published', 'true')->get();
-        }
-        elseif ($manufactory){
+        } elseif ($manufactory) {
             $items = ProductItem::where('manufactory', 'like', '%' . $manufactory . '%')->where('is_published', 'true')->get()->limit(100);
-        }
-        elseif($seller){
-            try{
+        } elseif ($seller) {
+            try {
                 $substring = substr($seller, strrpos($seller, "/") + 1);
                 $seller_info = ProductSeller::where('url_seller', 'like', '%' . $substring . '%')
                     ->get()->last()->toArray();
                 $items = ProductItem::where('seller_id', $seller_info['id'])->where('is_published', 'true')->get();
-            }catch(\Exception $e){
+            } catch (\Exception $e) {
             }
         }
         return $this->generateCsv($items, $this->keys, "results.csv");
@@ -65,7 +62,8 @@ class getCsvService
      * @param array $csv - из этого массива формируем csv
      * @return mixed
      */
-    private function sendCsv(string $filename, array $csv){
+    private function sendCsv(string $filename, array $csv)
+    {
         file_put_contents($filename, $csv);
         return response()->download($filename)->deleteFileAfterSend(true);
     }
